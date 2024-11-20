@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>New task page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+
+<body>
+    <nav class="navbar bg-body-tertiary" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand">Robots. Добавление новой задачи</a>
+            <a class="btn btn-light d-flex" href="/" role="button">Главная</a>
+        </div>
+    </nav>
+    <div>
+        <form th:method="POST" th:action="@{/new}" th:object="${newTask}">
+            <div class="mb-3">
+                <label for="robotID" class="form-label">Выберите робота</label>
+                <select name="robotName" class="form-control" id="robotID">
+                    <option value="commonTask">В общую очередь</option>
+                    <option th:each="robot : ${robots}" th:value="${robot.getRobotName()}"
+                            th:text="${robot.getRobotName()}">robotName</option>
+                    <option value="broadcastTask">Всем существующим роботам</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="taskTypeID" class="form-label">Выберите тип задания</label>
+                <select th:field="*{taskType}" class="form-control" id="taskTypeID">
+                    <option th:each="taskType : ${taskTypes}" th:value="${taskType}" th:text="${taskType}">taskType</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="taskDescription" class="form-label">Описание задания</label>
+                <input type="text" class="form-control" id="taskDescription" th:field="*{description}">
+            </div>
+
+            <button type="submit" class="btn btn-dark">Отправить</button>
+        </form>
+    </div>
+</body>
+</html>
